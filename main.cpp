@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
 
     out << tree_style_tabs;
 #else /* SAVE */
-    QFile file("file.dat");printf("xxxx\n");
+    QFile file("file.dat");
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
 
