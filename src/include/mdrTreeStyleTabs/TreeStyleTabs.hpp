@@ -135,12 +135,27 @@ namespace mdr {
         void resizeEvent(QResizeEvent* event) override;
         bool event(QEvent* e) override;
     Q_SIGNALS:
+        //! Сигнал о том, что была нажата кнопка закрытия вкладки.
+        //! Пример использования:
+        //! \code
+        //!    QObject::connect(&tree_style_tabs, &TreeStyleTabs::tabCloseRequested,
+        //!                     &tree_style_tabs, &TreeStyleTabs::close);
+        //! \endcode
         void tabCloseRequested(Node* tab);
+        //! Какая-то вкладка стала активной.
         void newChecked(Node* tab);
+        //! Была создана новая вкладка.
         void newTab(Node* tab);
+        //! Вкладку переместили с помощью мыши. Перемещения с помощью
+        //! применения методов Node не отслеживаются.
         void wasMoved(Node* tab);
+        //! Вкладка была свёрнута/развёрнута. Для того чтобы узнать свернули или
+        //! развернули можно использовать метод isExpanded().
         void wasExpandedCollapsed(Node* tab);
     public:
+        //! \param tab_widget_factory фабрика для создания widget'ов. Можно использовать
+        //!                           TabWidgetFactory, можно написать свою реализацию
+        //!                           класса ITabWidgetFactory.
         explicit TreeStyleTabs(QWidget* parent/* = nullptr*/,
                                std::shared_ptr<ITabWidgetFactory> tab_widget_factory);
 
@@ -177,6 +192,7 @@ namespace mdr {
 
         ~TreeStyleTabs() override;
     public Q_SLOTS:
+        //! Убрать вкладку из дерева и освободить память.
         void close(Node* tab);
 
         void show();
