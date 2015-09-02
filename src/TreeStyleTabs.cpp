@@ -319,12 +319,17 @@ close(Node* tab) {
         return;
 
     Node* parent = tab->getParent();
-    // Родителей нет у корня, но корень нельзя удалять
-    assert(parent != nullptr);
 
     // Узнаём индекс удаляемого таба для того чтобы
     // вставить в это место ребёнка удаляемого таба
-    int tab_index = parent->getLeaves().indexOf(tab);
+    const int tab_index = [parent, tab] {
+        if(parent)
+            return parent->getLeaves().indexOf(tab);
+        // Если нет родителя, то, вероятно, это откреплённая от дерева
+        // вкладка. Или для этой вкладки два раза вызвали close.
+        else
+            return 0;
+    }();
 
     tab->setParent(nullptr);
 
@@ -336,7 +341,8 @@ close(Node* tab) {
 
     // Откладываем удаление для того чтобы те кто обрабатывает сигнал
     // tabCloseRequested не получили указатель в никуда
-    m_nodes_for_delete.push_back(tab);
+    if(!m_nodes_for_delete.contains(tab))
+        m_nodes_for_delete.push_back(tab);
     QCoreApplication::postEvent(this, new QEvent(g_delete_node_event));
     struct tab;
 
