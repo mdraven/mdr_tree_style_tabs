@@ -638,9 +638,6 @@ updateTabWidgets() {
 
 bool mdr::TreeStyleTabs::
 event(QEvent* e) {
-    if(QWidget::event(e))
-        return true;
-
     // Отложенное удаленние узлов
     if(e->type() == g_delete_node_event) {
         auto func = std::bind(&mdr::TreeStyleTabs::unregAndDeleteWidget, this,
@@ -652,6 +649,8 @@ event(QEvent* e) {
 
         return true;
     }
+    else if(QWidget::event(e))
+        return true;
 
     return false;
 }

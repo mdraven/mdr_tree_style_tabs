@@ -133,6 +133,7 @@ namespace mdr {
         int getTabHeightThreshold() const;
     protected:
         void resizeEvent(QResizeEvent* event) override;
+        bool event(QEvent* e) override;
     Q_SIGNALS:
         void tabCloseRequested(Node* tab);
         void newChecked(Node* tab);
@@ -167,8 +168,6 @@ namespace mdr {
         //! Создаёт Node с виджетом. Созданый Node имеет родителем
         //! корневой Node
         Node* create();
-
-        bool event(QEvent* e) override;
 
         ~TreeStyleTabs() override;
     public Q_SLOTS:
