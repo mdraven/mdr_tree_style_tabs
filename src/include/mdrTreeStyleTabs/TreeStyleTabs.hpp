@@ -144,29 +144,35 @@ namespace mdr {
         explicit TreeStyleTabs(QWidget* parent/* = nullptr*/,
                                std::shared_ptr<ITabWidgetFactory> tab_widget_factory);
 
+        //! Получить корень дерева табов. Корень не имеет widget'а и не
+        //! отображается на экране, но к нему можно прикреплять табы
+        //! которые будут отображаться
         Node* getRoot();
         const Node* getRoot() const;
 
         int getTabHeight() const;
+        //! Установить высоту табов.
         void setTabHeight(int height);
 
         int getShiftPerDepth() const;
+        //! Установить сдвиг у вложенных табов.
         void setShiftPerDepth(int shift);
 
         Qt::AlignmentFlag getAlignment() const;
-        //! \param alignment или Qt::AlignLeft или Qt::AlignRight
+        //! \param alignment или Qt::AlignLeft или Qt::AlignRight.
         void setAlignment(Qt::AlignmentFlag alignment);
 
-        //! Возвращает указатель на активный таб или nullptr
+        //! Возвращает указатель на активный таб или nullptr.
         Node* getChecked();
         const Node* getChecked() const;
 
-        //! Эту функцию нужно вызывать после изменений в дереве
-        //! табов
+        //! Перестроить отображаемое дерево табов. Эту функцию нужно
+        //! вызывать после изменений производимым методами Node.
+        //! Это медленный метод.
         void updateTabWidgets();
 
         //! Создаёт Node с виджетом. Созданый Node имеет родителем
-        //! корневой Node
+        //! корневой Node.
         Node* create();
 
         ~TreeStyleTabs() override;
